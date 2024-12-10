@@ -1,0 +1,192 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Exécuter le générateur de projet",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/generateur_projet.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Configurer Tailwind ou Bootstrap",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/setup_tailwind.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Exécuter le gestionnaire de bibliothèques",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/library_manager.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Générer des templates HTML",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/html_template_generator.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Nettoyer le projet",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/project_cleaner.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Démarrer le serveur local",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/local_server.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Générer des thèmes CSS",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/css_theme_generator.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Générer le moteur de recherche statique",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/static_site_search.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Vérifier les liens brisés",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/broken_links_checker.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Générer un formulaire personnalisé",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/form_generator.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Nettoyer les fichiers CSS inutilisés",
+      "type": "shell",
+      "command": "python",
+      "args": ["${workspaceFolder}/css_cleaner.py"],
+      "group": {
+        "kind": "build",
+        "isDefault": false
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
