@@ -10,8 +10,8 @@ class ProjectManagerApp:
 
         # Liste des projets existants (chemins complets)
         self.projects = [
-            os.path.abspath("Form_Generator.py"),
             os.path.abspath("generateur_projet.py"),
+            os.path.abspath("Form_Generator.py"),
             os.path.abspath("Html_Template_Generator.py"),
             os.path.abspath("library_manager.py"),
             os.path.abspath("project_Cleaner.py"),

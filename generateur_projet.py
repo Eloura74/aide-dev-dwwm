@@ -1,4 +1,5 @@
 import os
+from argparse import ArgumentParser
 
 def normalize_path(path):
     """Convertir un chemin en format standard pour le système d'exploitation"""
@@ -44,16 +45,16 @@ def create_project_structure(base_path, project_name, use_tailwind=False, use_bo
     create_file(
         os.path.join(project_path, "templates", "index.html"),
         """<!DOCTYPE html>
-<html lang=\"en\">
+<html lang="en">
 <head>
-    <meta charset=\"UTF-8\">
-    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-    <link rel=\"stylesheet\" href=\"../css/style.css\">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/style.css">
     <title>Mon Projet</title>
 </head>
 <body>
     <h1>Bienvenue dans Mon Projet</h1>
-    <script src=\"../js/app.js\"></script>
+    <script src="../js/app.js"></script>
 </body>
 </html>
 """,
@@ -67,15 +68,18 @@ def create_project_structure(base_path, project_name, use_tailwind=False, use_bo
 
     print(f"Structure du projet '{project_name}' créée avec succès dans '{base_path}' !")
 
-# Interface utilisateur simplifiée pour personnaliser la création
 if __name__ == "__main__":
-    print("=== Générateur de Structure de Projet ===")
-    project_name = input("Entrez le nom du projet : ").strip()
-    base_path = input("Entrez le chemin où créer le projet (laisser vide pour le dossier actuel) : ").strip()
-    if not base_path:
-        base_path = os.getcwd()
-    base_path = normalize_path(base_path)
-    use_tailwind = input("Voulez-vous ajouter Tailwind CSS ? (o/n) : ").lower() == 'o'
-    use_bootstrap = input("Voulez-vous ajouter Bootstrap ? (o/n) : ").lower() == 'o'
+    parser = ArgumentParser(description="Générateur de structure de projet")
+    parser.add_argument("--path", required=True, help="Chemin de destination du projet")
+    parser.add_argument("--project-name", required=True, help="Nom du projet")
+    parser.add_argument("--tailwind", action="store_true", help="Inclure Tailwind CSS")
+    parser.add_argument("--bootstrap", action="store_true", help="Inclure Bootstrap")
 
-    create_project_structure(base_path, project_name, use_tailwind, use_bootstrap)
+    args = parser.parse_args()
+
+    create_project_structure(
+        base_path=args.path,
+        project_name=args.project_name,
+        use_tailwind=args.tailwind,
+        use_bootstrap=args.bootstrap
+    )
