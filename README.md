@@ -40,7 +40,7 @@ Une suite complète d'outils pour la gestion et la génération de projets web, 
 
 1. Clonez le dépôt :
 ```bash
-git clone (https://github.com/Eloura74/aide-dev-dwwm.git)
+git clone https://github.com/Eloura74/aide-dev-dwwm.git
 cd scriptPython
 ```
 
