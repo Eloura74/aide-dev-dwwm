@@ -99,85 +99,67 @@ footer {{
 .bg-secondary {{ background-color: var(--secondary-color); }}
 """
     
-    file_name = f"theme_{theme_name.lower().replace(' ', '_')}.css"
-    file_path = os.path.join(output_dir, file_name)
+    # Crée le fichier CSS
+    theme_file = os.path.join(output_dir, f"{theme_name.lower()}.css")
+    with open(theme_file, "w", encoding="utf-8") as f:
+        f.write(css_content)
+    return theme_file
+
+def generate_themes(options, output_dir):
+    """Génère les thèmes CSS selon les options sélectionnées."""
+    themes = []
     
-    with open(file_path, "w", encoding="utf-8") as file:
-        file.write(css_content)
-    print(f"Thème CSS '{theme_name}' généré avec succès dans {file_path}.")
-    return file_path
-
-def generate_multiple_themes(output_dir):
-    """Génère plusieurs thèmes CSS prédéfinis."""
-    themes = [
-        {"name": "Ocean", "primary": "#3498db", "secondary": "#2ecc71", "background": "#ecf0f1", "text": "#2c3e50"},
-        {"name": "Sunset", "primary": "#e74c3c", "secondary": "#f39c12", "background": "#fdf5e6", "text": "#2c3e50"},
-        {"name": "Dark Mode", "primary": "#1abc9c", "secondary": "#e67e22", "background": "#2c3e50", "text": "#ecf0f1"},
-        {"name": "Forest", "primary": "#27ae60", "secondary": "#16a085", "background": "#dff9fb", "text": "#2c3e50"},
-        {"name": "Purple Haze", "primary": "#8e44ad", "secondary": "#9b59b6", "background": "#f3e5f5", "text": "#2c3e50"},
-        {"name": "Modern Light", "primary": "#00bcd4", "secondary": "#009688", "background": "#ffffff", "text": "#333333"},
-        {"name": "Modern Dark", "primary": "#673ab7", "secondary": "#3f51b5", "background": "#121212", "text": "#ffffff"},
-        {"name": "Earthy", "primary": "#795548", "secondary": "#8d6e63", "background": "#efebe9", "text": "#3e2723"},
-        {"name": "Minimal", "primary": "#212121", "secondary": "#757575", "background": "#fafafa", "text": "#212121"},
-        {"name": "Vibrant", "primary": "#ff4081", "secondary": "#7c4dff", "background": "#ffffff", "text": "#333333"}
-    ]
-
+    if "dark" in options:
+        themes.append(("Dark", "#00b4d8", "#0077b6", "#1a1a1a", "#ffffff"))
+    if "light" in options:
+        themes.append(("Light", "#0066cc", "#0099ff", "#ffffff", "#333333"))
+    if "corporate" in options:
+        themes.append(("Corporate", "#2c3e50", "#34495e", "#ecf0f1", "#2c3e50"))
+    
     generated_files = []
-    for theme in themes:
-        file_path = generate_css_theme(
-            theme["name"], 
-            theme["primary"], 
-            theme["secondary"], 
-            theme["background"], 
-            theme["text"],
-            output_dir
-        )
-        generated_files.append(file_path)
+    for theme_name, primary, secondary, background, text in themes:
+        theme_file = generate_css_theme(theme_name, primary, secondary, background, text, output_dir)
+        generated_files.append(theme_file)
     
-    # Créer un fichier index.html pour prévisualiser les thèmes
-    create_theme_preview(output_dir, themes)
     return generated_files
 
-def create_theme_preview(output_dir, themes):
-    """Crée une page HTML pour prévisualiser tous les thèmes."""
+def create_theme_preview(output_dir, theme_files):
+    """Crée une page HTML pour prévisualiser les thèmes."""
     preview_content = """
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prévisualisation des Thèmes CSS</title>
+    <title>Prévisualisation des Thèmes</title>
     <style>
-        .theme-preview {
-            margin: 20px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-        .color-sample {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            margin-right: 5px;
-            border: 1px solid #ccc;
-        }
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .theme-section { margin-bottom: 40px; padding: 20px; border-radius: 8px; }
+        .controls { margin-bottom: 20px; }
     </style>
 </head>
 <body>
     <h1>Prévisualisation des Thèmes CSS</h1>
 """
     
-    for theme in themes:
+    for theme_file in theme_files:
+        theme_name = os.path.splitext(os.path.basename(theme_file))[0].title()
         preview_content += f"""
-    <div class="theme-preview">
-        <h2>{theme["name"]}</h2>
-        <p>
-            <span class="color-sample" style="background-color: {theme["primary"]}"></span>Primary: {theme["primary"]}
-            <span class="color-sample" style="background-color: {theme["secondary"]}"></span>Secondary: {theme["secondary"]}
-            <span class="color-sample" style="background-color: {theme["background"]}"></span>Background: {theme["background"]}
-            <span class="color-sample" style="background-color: {theme["text"]}"></span>Text: {theme["text"]}
-        </p>
-        <a href="theme_{theme["name"].lower().replace(' ', '_')}.css">Voir le fichier CSS</a>
+    <div class="theme-section">
+        <h2>{theme_name}</h2>
+        <link rel="stylesheet" href="{os.path.basename(theme_file)}">
+        <div class="controls">
+            <button class="btn">Bouton d'exemple</button>
+            <a href="#">Lien d'exemple</a>
+        </div>
+        <div class="card">
+            <h3>Carte d'exemple</h3>
+            <p>Ceci est un exemple de contenu dans une carte.</p>
+        </div>
+        <form>
+            <input type="text" placeholder="Champ de texte">
+            <textarea placeholder="Zone de texte"></textarea>
+            <button type="submit" class="btn">Envoyer</button>
+        </form>
     </div>
 """
     
@@ -186,24 +168,36 @@ def create_theme_preview(output_dir, themes):
 </html>
 """
     
-    with open(os.path.join(output_dir, "index.html"), "w", encoding="utf-8") as f:
+    preview_file = os.path.join(output_dir, "preview.html")
+    with open(preview_file, "w", encoding="utf-8") as f:
         f.write(preview_content)
 
 def create_themes_directory(base_path):
-    """Crée un dossier pour les thèmes s'il n'existe pas."""
-    themes_dir = os.path.join(base_path, "css_themes")
-    if not os.path.exists(themes_dir):
-        os.makedirs(themes_dir)
+    """Crée le dossier des thèmes s'il n'existe pas."""
+    themes_dir = os.path.join(base_path, "themes")
+    os.makedirs(themes_dir, exist_ok=True)
     return themes_dir
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Générateur de thèmes CSS")
     parser.add_argument("--path", required=True, help="Chemin de destination des thèmes")
+    parser.add_argument("--options", required=True, help="Liste des options séparées par des virgules (dark,light,corporate)")
     args = parser.parse_args()
-
-    root = Tk()
-    root.withdraw()
-
+    
+    # Crée le dossier des thèmes
     themes_dir = create_themes_directory(args.path)
-    generate_multiple_themes(themes_dir)
-    messagebox.showinfo("Succès", f"Les thèmes ont été générés dans le dossier {themes_dir}")
+    
+    # Génère les thèmes sélectionnés
+    options = args.options.split(",")
+    generated_files = generate_themes(options, themes_dir)
+    
+    # Crée la prévisualisation
+    if generated_files:
+        create_theme_preview(themes_dir, generated_files)
+        print(f"Thèmes générés avec succès dans : {themes_dir}")
+        print("Les fichiers suivants ont été créés :")
+        for file in generated_files:
+            print(f"- {os.path.basename(file)}")
+        print("- preview.html (prévisualisation des thèmes)")
+    else:
+        print("Aucun thème n'a été généré. Vérifiez les options sélectionnées.")

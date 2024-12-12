@@ -1,78 +1,105 @@
-from tkinter import Tk, simpledialog, filedialog, messagebox
 import os
+import argparse
 
-def generate_form(fields, output_dir):
+def generate_form_field(field_type, label):
+    """Génère le HTML pour un champ de formulaire spécifique."""
+    field_id = label.lower().replace(" ", "_")
+    html = f'    <div class="form-group">\n'
+    html += f'        <label for="{field_id}">{label}</label>\n'
+    
+    if field_type == "text":
+        html += f'        <input type="text" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "email":
+        html += f'        <input type="email" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "password":
+        html += f'        <input type="password" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "number":
+        html += f'        <input type="number" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "date":
+        html += f'        <input type="date" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "tel":
+        html += f'        <input type="tel" id="{field_id}" name="{field_id}" class="form-control">\n'
+    elif field_type == "textarea":
+        html += f'        <textarea id="{field_id}" name="{field_id}" class="form-control"></textarea>\n'
+    elif field_type == "checkbox":
+        html += f'        <input type="checkbox" id="{field_id}" name="{field_id}" class="form-check-input">\n'
+    elif field_type == "select":
+        html += f'        <select id="{field_id}" name="{field_id}" class="form-control">\n'
+        html += '            <option value="">Sélectionnez une option</option>\n'
+        html += '        </select>\n'
+    
+    html += '    </div>\n'
+    return html
+
+def generate_form(fields, output_dir, name="form"):
     """Génère un fichier HTML contenant un formulaire personnalisé."""
-    form = "<form action='#' method='POST'>\n"
-    for field in fields:
-        field_id = field.replace(" ", "_").lower()
-        form += f'    <label for="{field_id}">{field.title()} :</label><br>\n'
-        form += f'    <input type="text" id="{field_id}" name="{field_id}" placeholder="Entrez votre {field.lower()}"><br><br>\n'
-    form += '    <input type="submit" value="Soumettre">\n</form>'
+    html = """<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulaire</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { padding: 2rem; }
+        .form-group { margin-bottom: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="mb-4">Formulaire</h2>
+        <form action="#" method="POST" class="needs-validation" novalidate>
+"""
+    
+    # Génération des champs
+    for field_type in fields:
+        label = field_type.replace("_", " ").title()
+        html += generate_form_field(field_type, label)
+    
+    html += """            <button type="submit" class="btn btn-primary">Envoyer</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Validation des formulaires Bootstrap
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+</html>"""
 
-    # Écrire dans un fichier HTML dans le dossier sélectionné
-    output_file = os.path.join(output_dir, "form.html")
-    with open(output_file, "w", encoding="utf-8") as file:
-        file.write(form)
-    messagebox.showinfo("Succès", f"Formulaire HTML généré avec succès dans '{output_file}'.")
+    # Créer le dossier de sortie s'il n'existe pas
+    os.makedirs(output_dir, exist_ok=True)
+    
+    # Écrire le fichier HTML
+    output_file = os.path.join(output_dir, f"{name}.html")
+    with open(output_file, "w", encoding="utf-8") as f:
+        f.write(html)
+    
+    print(f"Formulaire généré avec succès : {output_file}")
+    return output_file
 
 if __name__ == "__main__":
-    root = Tk()
-    root.withdraw()  # Masquer la fenêtre principale
-
-    # Récupérer le nom du projet depuis l'entrée utilisateur du GUI
-    project_name = simpledialog.askstring(
-        "Nom du Projet", 
-        "Entrez le nom du projet où le formulaire sera enregistré :"
-    )
-
-    if not project_name:
-        messagebox.showwarning("Avertissement", "Aucun nom de projet fourni.")
-        exit()
-
-    # Sélectionner le dossier de destination
-    output_dir = filedialog.askdirectory(
-        title="Sélectionner le dossier de destination pour le projet"
-    )
-
-    if not output_dir:
-        messagebox.showwarning("Avertissement", "Aucun dossier de destination sélectionné.")
-        exit()
-
-    full_path = os.path.join(output_dir, project_name)
-    os.makedirs(full_path, exist_ok=True)
-
-    # Demander les champs du formulaire
-    fields_input = simpledialog.askstring(
-        "Champs du Formulaire", 
-        "Entrez les noms des champs du formulaire (séparés par des virgules, ex: nom, email, téléphone) :"
-    )
-
-    if fields_input:
-        fields = [field.strip() for field in fields_input.split(",")]
-        if fields:
-            generate_form(fields, full_path)
-        else:
-            messagebox.showwarning("Avertissement", "Aucun champ valide fourni.")
-    else:
-        messagebox.showwarning("Avertissement", "Aucun champ fourni.")
-
-# Instructions pour l'utiliser :
-# Depuis le GUI :
-# - Lancer le script dans un environnement où Tkinter est installé.
-# - Une fenêtre apparaîtra pour demander le nom du projet, le dossier de destination et les champs du formulaire.
-# - Les champs doivent être fournis sous la forme de noms séparés par des virgules (par exemple : nom, email, téléphone).
-# - Le script générera un fichier HTML nommé 'form.html' dans le dossier sélectionné et organisé dans un sous-dossier portant le nom du projet.
-# Depuis Visual Studio Code :
-# - Placez ce script dans votre espace de travail.
-# - Ajoutez une tâche dans votre fichier tasks.json pour exécuter le script :
-#   {
-#     "label": "Générer un formulaire personnalisé",
-#     "type": "shell",
-#     "command": "python",
-#     "args": ["${workspaceFolder}/form_generator_gui.py"],
-#     "problemMatcher": []
-#   }
-# - Lancez la tâche avec Ctrl+Shift+P > Tasks: Run Task > Générer un formulaire personnalisé.
-# Résultat :
-# - Un fichier HTML sera généré dans un sous-dossier portant le nom du projet dans le dossier sélectionné.
+    parser = argparse.ArgumentParser(description="Générateur de formulaires HTML")
+    parser.add_argument("--path", required=True, help="Chemin de destination du formulaire")
+    parser.add_argument("--fields", required=True, help="Liste des champs séparés par des virgules")
+    parser.add_argument("--name", default="form", help="Nom du fichier de sortie (sans extension)")
+    
+    args = parser.parse_args()
+    
+    # Convertir la chaîne de champs en liste
+    fields = [field.strip() for field in args.fields.split(",")]
+    
+    # Générer le formulaire
+    generate_form(fields, args.path, args.name)
