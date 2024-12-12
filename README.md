@@ -1,122 +1,85 @@
-# **📖 Utilisation des Scripts Python pour le Développement Web**
+# Python Project Manager & Generators Suite
 
----
+Une suite complète d'outils pour la gestion et la génération de projets web, incluant une interface graphique moderne.
 
-## **🌐 1. Broken_Links_Checker.py**
+## 🚀 Fonctionnalités
 
-**Usage** : Vérifie les liens brisés dans un fichier HTML.
+### Project Manager GUI
+- Interface graphique intuitive pour gérer vos projets
+- Gestion des favoris et historique
+- Intégration avec tous les générateurs
 
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Vérifier les liens brisés`.
-  - **Entrez** le chemin du fichier HTML lorsque le script vous le demande.
-</details>
+### Générateurs inclus
+1. **Générateur de Projets**
+   - Structure de base pour projets web
+   - Support pour Bootstrap et Tailwind
+   - Configuration automatique
 
-**✔️ Résultat** : Liste des liens valides et brisés affichée dans la console.
+2. **Générateur CSS**
+   - Création de thèmes personnalisés
+   - Prévisualisation des thèmes
+   - 10+ thèmes prédéfinis
 
----
+3. **Générateur de Formulaires**
+   - Création rapide de formulaires
+   - Validation intégrée
+   - Styles modernes
 
-## **🎨 2. Css_Cleaner.py**
+4. **Générateur de Composants**
+   - Navbar responsive
+   - Cards modernes
+   - Footer complet
+   - Section Hero
 
-**Usage** : Nettoie un fichier CSS en supprimant les classes non utilisées.
+5. **Générateur de Layouts**
+   - Grid Layout
+   - Flex Layout
+   - Responsive par défaut
 
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Nettoyer les fichiers CSS inutilisés`.
-  - **Fournissez** le fichier CSS et les fichiers HTML à analyser.
-</details>
+## 🛠️ Installation
 
-**✔️ Résultat** : Un fichier `cleaned.css` contenant uniquement les classes utilisées.
+1. Clonez le dépôt :
+```bash
+git clone [URL_DU_REPO]
+cd scriptPython
+```
 
----
+2. Installez les dépendances :
+```bash
+pip install -r requirements.txt
+```
 
-## **🎨 3. Css_Themes_Generator.py**
+## 📖 Utilisation
 
-**Usage** : Génère plusieurs fichiers CSS pour des thèmes personnalisés.
+1. Lancez l'interface graphique :
+```bash
+python Project_Manager_Gui.py
+```
 
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Générer des thèmes CSS`.
-</details>
+2. Sélectionnez le générateur souhaité
+3. Configurez les options selon vos besoins
+4. Générez votre code !
 
-**✔️ Résultat** : Des fichiers CSS (ex. `theme_ocean.css`) créés avec des palettes de couleurs spécifiques.
+## 📁 Structure du Projet
 
----
+- `Project_Manager_Gui.py` - Interface graphique principale
+- `generateur_projet.py` - Générateur de structure de projet
+- `Css_Themes_Generator.py` - Générateur de thèmes CSS
+- `Form_Generator.py` - Générateur de formulaires
+- `Component_Generator.py` - Générateur de composants web
+- `Layout_Generator.py` - Générateur de layouts
+- `templates/` - Dossier contenant les templates
+- `project_manager_config.json` - Configuration du gestionnaire
 
-## **📝 4. Form_Generator.py**
+## 🤝 Contribution
 
-**Usage** : Génère un formulaire HTML avec des champs personnalisés.
+Les contributions sont les bienvenues ! N'hésitez pas à :
+1. Fork le projet
+2. Créer une branche (`git checkout -b feature/AmazingFeature`)
+3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
+4. Push sur la branche (`git push origin feature/AmazingFeature`)
+5. Ouvrir une Pull Request
 
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Générer un formulaire personnalisé`.
-  - **Entrez** les noms des champs (ex. `nom,email,age`) lors de l'exécution.
-</details>
+## 📝 License
 
-**✔️ Résultat** : Un fichier `form.html` contenant un formulaire structuré.
-
----
-
-## **🏗️ 5. generateur_projet.py**
-
-**Usage** : Génère une structure complète pour un nouveau projet.
-
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Exécuter le générateur de projet`.
-  - **Fournissez** un nom de projet et le chemin de destination.
-</details>
-
-**✔️ Résultat** : Une structure de projet avec les fichiers nécessaires (HTML, CSS, JS).
-
----
-
-## **📂 6. Html_Template_Generator.py**
-
-**Usage** : Génère des fichiers HTML basés sur des templates prédéfinis.
-
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Générer des templates HTML`.
-</details>
-
-**✔️ Résultat** : Des fichiers HTML (par ex. `index.html`, `about.html`) créés dans un dossier `templates`.
-
----
-
-## **📦 7. library_manager.py**
-
-**Usage** : Télécharge automatiquement des bibliothèques externes (Bootstrap, FontAwesome, etc.).
-
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Exécuter le gestionnaire de bibliothèques`.
-  - **Indiquez** le dossier où les bibliothèques doivent être enregistrées.
-</details>
-
-**✔️ Résultat** : Les fichiers CSS/JS des bibliothèques téléchargés dans le dossier spécifié.
-
----
-
-## **💻 8. local_Server.py**
-
-**Usage** : Démarre un serveur local HTTP pour prévisualiser votre projet.
-
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Démarrer le serveur local`.
-  - **Indiquez** un port (par défaut : 8000).
-</details>
-
-**✔️ Résultat** : Le serveur démarre, accessible via [http://localhost:8000](http://localhost:8000).
-
----
-
-## **🧹 9. project_Cleaner.py**
-
-**Usage** : Nettoie un projet en supprimant les fichiers inutiles (log, tmp) et en vidant les dossiers (build, dist).
-
-<details>
-  <summary>🛠️ <strong>Exécution</strong></summary>
-  - **Dans Visual Studio Code** : `Ctrl+Shift+P > Tasks: Run Task > Nettoyer le projet`.
-  - **Indiquez** le chemi
+Distribué sous la licence MIT. Voir `LICENSE` pour plus d'informations.
